@@ -19,6 +19,18 @@ class BaseView(ABC):
     def window(self):
         return self.__window
 
+    @property
+    def container(self):
+        return self.__container
+
+    @window.setter
+    def window(self, window):
+        self.__window = window
+
+    @container.setter
+    def container(self, container):
+        self.__container = container
+
     def update_layout(self, layout):
         self.__window = sg.Window(self.__title, layout, font=('Helvetica', 14))
 

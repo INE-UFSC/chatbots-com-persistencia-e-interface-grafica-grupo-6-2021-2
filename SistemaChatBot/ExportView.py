@@ -1,7 +1,7 @@
 
 
 import PySimpleGUI as sg
-import BaseView
+from SistemaChatBot.BaseView import BaseView
 
 # View do padrão MVC
 

@@ -3,15 +3,22 @@ from random import random
 from SistemaChatBot.BotDAO import BotDAO
 from SistemaChatBot.SistemaChatBotView import SistemaChatBotView
 from Bots.BotManezinho import BotManezinho
+from SistemaChatBot.ImportView import ImportView
+from SistemaChatBot.ExportView import ExportView
+from SistemaChatBot.BotSelectionView import BotSelectionView
+import PySimpleGUI as sg
 
 class SistemaChatBotController:
     def __init__(self, nomeEmpresa):
         self.__id = random()
         self.__empresa = nomeEmpresa
         self.__lista_bots = BotDAO().get_list()
-        self.__bot = BotManezinho(random(), 'Manuel')
+        self.__bot = None # BotManezinho(random(), 'Manuel')
         self.__sistema_chat_bot_DAO = BotDAO()
         self.__sistema_chat_bot_view = SistemaChatBotView(self, self.__bot)
+        self.__telaExport = ExportView(self)
+        self.__telaImport = ImportView(self)
+        self.__telaBotSelection = BotSelectionView(self, self.__lista_bots)
 
     @property
     def id(self):
@@ -41,15 +48,12 @@ class SistemaChatBotController:
     def empresa(self, nome):
         self.__empresa = nome
 
-    def adiciona_bot(self, bots):
-        for bot in bots:
-            if isinstance(bot, Bot):
-                self.__sistema_chat_bot_DAO.add(bot)
-            else:
-                print(f'{bot} não é um bot conhecido')
+    def adiciona_bot(self, bot: Bot):
+        if isinstance(bot, Bot):
+            self.__sistema_chat_bot_DAO.add(bot)
 
     def boas_vindas(self):
-        print(f'Bem-vindo ao sistema da empresa {self.__empresa}')
+        return (f'Bem-vindo ao sistema da empresa {self.__empresa}')
 
     def mostra_menu(self):
         print("Os bots disponíveis são: ")
@@ -85,20 +89,87 @@ class SistemaChatBotController:
             return 1
 
     def inicio(self):
-        self.__sistema_chat_bot_view.tela()
-        self.boas_vindas()
-        print()
-        self.mostra_menu()
-        print()
-        self.escolhe_bot()
-        print(f'--> {self.bot.nome} diz: {self.bot.boas_vindas()}')
-        while True:
-            print()
-            self.mostra_comandos_bot()
-            print()
-            escolha = self.le_envia_comando()
-            if escolha == 0:
-                print()
-                print(f'--> {self.bot.nome} diz: {self.bot.despedida()}')
-                print()
-                break
+        self.__telaBotSelection.tela()
+        
+        # Loop de eventos
+        rodando = True
+        export_active = False
+        import_active = False
+        bot_selected = False
+        resultado = ''
+        while rodando:
+            if export_active:
+                export_active = self.handle_export()
+            elif import_active:
+                import_active = self.handle_import()
+            else:
+                if bot_selected:
+                    event, values = self.__sistema_chat_bot_view.le_eventos()
+                else:
+                    event, values = self.__telaBotSelection.le_eventos()
+
+                if event == sg.WIN_CLOSED:
+                    self.__telaCliente.fim()
+                    break
+                else:
+                    try:
+                        if event == 'Exportar':
+                            self.__telaExport.tela()
+                            export_active = True 
+                        elif event == 'Importar':
+                            self.__telaImport.tela()
+                            import_active = True 
+                        else:
+                            for comando in self.__bot.comandos:
+                                if event == comando.comando:
+                                    resultado = comando.resposta
+
+                            for bot in self.__lista_bots:
+                                if event == bot.nome:
+                                    self.__telaBotSelection.fim()
+                                    self.__sistema_chat_bot_view.tela()
+ 
+
+                    except ValueError:
+                        resultado = 'Código deve ser um número inteiro!'
+                    except KeyError:
+                        resultado = 'Valor não cadastrado!'
+                    except NameError:
+                        resultado = 'Digite ao menos um campo!'
+
+                if resultado != '':
+                    dados = str(resultado)
+                    self.__sistema_chat_bot_view.mostra_resultado(dados)
+                    self.__sistema_chat_bot_view.limpa_dados()
+
+    def handle_export(self):
+        event_exp, values_exp = self.__telaExport.le_eventos()
+
+        export_active = True
+
+        if event_exp == sg.WIN_CLOSED:
+            self.__telaExport.fim()
+            export_active = False
+        elif event_exp == 'Exportar':
+                path = values_exp['caminho_export']
+                self.__sistema_chat_bot_DAO.set_data_source(path)
+                self.__telaExport.fim()
+                export_active = False
+
+        return export_active
+
+    def handle_import(self):
+        event_exp, values_exp = self.__telaImport.le_eventos()
+
+        import_active = True
+
+        if event_exp == sg.WIN_CLOSED:
+            self.__telaImport.fim()
+            import_active = False
+        elif event_exp == 'importar':
+                path = values_exp['caminho_import']
+                self.__sistema_chat_bot_DAO.import_source(path)
+                self.__telaImport.fim()
+                import_active = False
+
+        return import_active
