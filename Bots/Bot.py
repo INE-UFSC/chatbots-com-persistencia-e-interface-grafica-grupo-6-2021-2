@@ -7,10 +7,15 @@ from Bots.Comando import Comando
 
 class Bot(ABC):
 
-    def __init__(self, nome):
+    def __init__(self, id, nome):
+        self.__id = id
         self.__nome = nome
         self.__comandos = []
         self.__comando_erro = "Não consigo responder essa pergunta"
+
+    @property
+    def id(self):
+        return self.__id
 
     @property
     def nome(self):
