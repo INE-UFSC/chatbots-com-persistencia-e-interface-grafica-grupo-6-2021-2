@@ -1,12 +1,23 @@
+from multiprocessing import set_forkserver_preload
 from Bots.Bot import Bot
+from random import random
+from Dao.SistemaChatBotDAO import SistemaChatBotDAO
+from SistemaChatBotView import SistemaChatBotView
 
 
-class SistemaChatBot:
-    def __init__(self, nomeEmpresa, lista_bots):
+class SistemaChatBotController:
+    def __init__(self, nomeEmpresa):
+        self.__id = random()
         self.__empresa = nomeEmpresa
-        self.__lista_bots = []
-        self.adiciona_bot(lista_bots)
+        self.__lista_bots = SistemaChatBotDAO().get_list()
+        # self.adiciona_bot(lista_bots)
         self.__bot = None
+        self.__sistema_chat_bot_DAO = SistemaChatBotDAO()
+        self.__sistema_chat_bot_view = SistemaChatBotView(self)
+
+    @property
+    def id(self):
+        return self.__id
 
     @property
     def bot(self):
@@ -35,7 +46,7 @@ class SistemaChatBot:
     def adiciona_bot(self, bots):
         for x in bots:
             if isinstance(x, Bot):
-                self.__lista_bots.append(x)
+                self.__sistema_chat_bot_DAO.add(x)
             else:
                 print(f'{x} não é um bot conhecido')
 
@@ -46,29 +57,26 @@ class SistemaChatBot:
         print("Os bots disponíveis são: ")
         count = 0
         try:
-            for x in self.lista_bots:
-                apresentacao = x.apresentacao()
-                print(
-                    f"{count} - Bot: {x.nome} - Mensagem de apresentação: {apresentacao}")
-                count += 1
+            for chave, bot in self.__sistema_chat_bot_DAO.get_all():
+                print(chave, bot)
+                bot.apresentacao()
         except IndexError:
             print('Não há nenhum bot disponivel')
 
     def escolhe_bot(self):
-        escolha = input('Digite o numero do bot escolhido: ')
+        nome = input('Digite o nome do bot escolhido: ')
         try:
-            escolha = int(escolha)
-            self.__bot = self.__lista_bots[escolha]
+            nome = isinstance(nome, str)
+            self.__bot = self.__sistema_chat_bot_DAO.find(nome)
         except ValueError:
-            print("Por favor digite um número")
+            print("Por favor digite o nome do bot")
             self.escolhe_bot()
         except IndexError:
             print('Escolha um numero válido')
             self.escolhe_bot()
 
     def mostra_comandos_bot(self):
-        bot = self.__bot
-        bot.mostra_comandos()
+        self.bot.mostra_comandos()
 
     def le_envia_comando(self):
         escolha = input(
@@ -76,7 +84,7 @@ class SistemaChatBot:
         if escolha == '-1':
             return 0
         else:
-            self.__bot.executa_comando(escolha)
+            self.bot.executa_comando(escolha)
             return 1
 
     def inicio(self):
@@ -85,7 +93,7 @@ class SistemaChatBot:
         self.mostra_menu()
         print()
         self.escolhe_bot()
-        print(f'--> {self.__bot.nome} diz: {self.__bot.boas_vindas()}')
+        print(f'--> {self.bot.nome} diz: {self.bot.boas_vindas()}')
         while True:
             print()
             self.mostra_comandos_bot()
@@ -93,6 +101,6 @@ class SistemaChatBot:
             escolha = self.le_envia_comando()
             if escolha == 0:
                 print()
-                print(f'--> {self.__bot.nome} diz: {self.__bot.despedida()}')
+                print(f'--> {self.bot.nome} diz: {self.bot.despedida()}')
                 print()
                 break
