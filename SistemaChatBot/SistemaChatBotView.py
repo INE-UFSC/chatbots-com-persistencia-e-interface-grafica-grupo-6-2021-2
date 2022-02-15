@@ -1,31 +1,34 @@
 import PySimpleGUI as sg
-
+import SistemaChatBotController
 # View do padrão MVC
 
 
 class SistemaChatBotView():
-    def __init__(self, controlador):
+    def __init__(self, controlador, bot):
         self.__controlador = controlador
         self.__container = []
         self.__window = sg.Window(
             "Sistema Chat Bot", self.__container, font=("Helvetica", 14))
+        self.__bot = bot
 
-    def tela_consulta(self):
+    def tela_chatbot(self):
         sg.theme('Dark Brown 1')
 
         self.__container = [
             [sg.Text('')],
-            [sg.Text('', size=(10, 1)), sg.InputText('', key='')],
-            [sg.Text('', size=(10, 1)), sg.InputText('', key='codigo')],
-            [sg.Button(''), sg.Button(''), sg.Button('')],
-            [sg.Text('', key='status', size=(50, 1))]
+            # botões com os comandos do BOT
+            for comando in self.__bot.comandos:
+                [sg.Button(comando.comando)]
+            # no controller: ele detecta o comando pelo comando.comando e me passa a resposta via pega_resposta no mostra_resultado
+            # area de resposta do bot
+            [sg.Text('', key='resposta', size=(50, 1))]
         ]
 
         self.__window = sg.Window(
             "Sistema Chat Bot", self.__container, font=("Helvetica", 14))
 
-    def mostra_resultado(self, resultado):
-        self.__window.Element('status').Update(resultado)
+    def mostra_resultado(self, resposta):
+        self.__window.Element('resposta').Update(resposta)
 
     def limpa_lacuna(self, key):
         self.__window.Element(key).Update('')
