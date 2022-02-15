@@ -12,7 +12,7 @@ class SistemaChatBotView(BaseView):
         self.__window = sg.Window(
             self.__title, self.__container, font=("Helvetica", 14))
 
-    def tela_chatbot(self):
+    def tela(self):
         sg.theme('Dark Brown 1')
         self.__container = []
         for comando in self.__bot.comandos:
