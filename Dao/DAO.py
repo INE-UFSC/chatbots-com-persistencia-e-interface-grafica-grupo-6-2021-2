@@ -47,6 +47,12 @@ class DAO(ABC):
     def get_all(self):
         return self.objCache.items()
 
+    def get_list(self):
+        list = []
+        for key in self.__object_cache.keys():
+            list.append(self.__object_cache[key])
+        return list
+
     def set_data_source(self, path: str):
         if '.pkl' not in path:
             path = path + '.pkl'
