@@ -1,8 +1,7 @@
-from multiprocessing import set_forkserver_preload
 from Bots.Bot import Bot
 from random import random
-from Dao.SistemaChatBotDAO import SistemaChatBotDAO
-from SistemaChatBotView import SistemaChatBotView
+from SistemaChatBot.SistemaChatBotDAO import SistemaChatBotDAO
+from SistemaChatBot.SistemaChatBotView import SistemaChatBotView
 
 
 class SistemaChatBotController:
@@ -10,7 +9,6 @@ class SistemaChatBotController:
         self.__id = random()
         self.__empresa = nomeEmpresa
         self.__lista_bots = SistemaChatBotDAO().get_list()
-        # self.adiciona_bot(lista_bots)
         self.__bot = None
         self.__sistema_chat_bot_DAO = SistemaChatBotDAO()
         self.__sistema_chat_bot_view = SistemaChatBotView(self)
