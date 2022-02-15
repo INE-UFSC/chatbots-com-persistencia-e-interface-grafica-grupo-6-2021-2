@@ -8,9 +8,7 @@ from Bots.BotFeliz import BotFeliz
 from random import random
 
 # construa a lista de bots disponíveis aqui
-lista_bots = [BotZangado(random(), "Yoda"), BotTriste(random(), "Onion"), BotFeliz(random(), "Sunflower"), BotManezinho(random(), 'Manuel'),
-              BotMarombeiro(random(), 'Stronda')]
+lista_bots = [BotZangado(1, "Yoda"), BotTriste(2, "Onion"), BotFeliz(3, "Sunflower"), BotManezinho(4, 'Manuel'),
+              BotMarombeiro(5, 'Stronda')]
 
 sys = scb.SistemaChatBotController('Empresa show').adiciona_bot(lista_bots)
-
-sys.inicio()

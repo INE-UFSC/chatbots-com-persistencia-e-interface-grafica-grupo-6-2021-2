@@ -2,14 +2,14 @@ from Bots.Bot import Bot
 from random import random
 from SistemaChatBot.BotDAO import BotDAO
 from SistemaChatBot.SistemaChatBotView import SistemaChatBotView
-
+from Bots.BotManezinho import BotManezinho
 
 class SistemaChatBotController:
     def __init__(self, nomeEmpresa):
         self.__id = random()
         self.__empresa = nomeEmpresa
         self.__lista_bots = BotDAO().get_list()
-        self.__bot = None
+        self.__bot = BotManezinho(random(), 'Manuel')
         self.__sistema_chat_bot_DAO = BotDAO()
         self.__sistema_chat_bot_view = SistemaChatBotView(self, self.__bot)
 
@@ -85,7 +85,7 @@ class SistemaChatBotController:
             return 1
 
     def inicio(self):
-        self.__sistema_chat_bot_view.tela_chatbot()
+        self.__sistema_chat_bot_view.tela()
         self.boas_vindas()
         print()
         self.mostra_menu()
