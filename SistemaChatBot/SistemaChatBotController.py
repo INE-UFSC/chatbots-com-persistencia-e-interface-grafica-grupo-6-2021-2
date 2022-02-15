@@ -1,6 +1,6 @@
 from Bots.Bot import Bot
 from random import random
-from SistemaChatBot.SistemaChatBotDAO import SistemaChatBotDAO
+from SistemaChatBot.BotDAO import BotDAO
 from SistemaChatBot.SistemaChatBotView import SistemaChatBotView
 
 
@@ -8,10 +8,10 @@ class SistemaChatBotController:
     def __init__(self, nomeEmpresa):
         self.__id = random()
         self.__empresa = nomeEmpresa
-        self.__lista_bots = SistemaChatBotDAO().get_list()
+        self.__lista_bots = BotDAO().get_list()
         self.__bot = None
-        self.__sistema_chat_bot_DAO = SistemaChatBotDAO()
-        self.__sistema_chat_bot_view = SistemaChatBotView(self)
+        self.__sistema_chat_bot_DAO = BotDAO()
+        self.__sistema_chat_bot_view = SistemaChatBotView(self, self.__bot)
 
     @property
     def id(self):
@@ -42,18 +42,17 @@ class SistemaChatBotController:
         self.__empresa = nome
 
     def adiciona_bot(self, bots):
-        for x in bots:
-            if isinstance(x, Bot):
-                self.__sistema_chat_bot_DAO.add(x)
+        for bot in bots:
+            if isinstance(bot, Bot):
+                self.__sistema_chat_bot_DAO.add(bot)
             else:
-                print(f'{x} não é um bot conhecido')
+                print(f'{bot} não é um bot conhecido')
 
     def boas_vindas(self):
         print(f'Bem-vindo ao sistema da empresa {self.__empresa}')
 
     def mostra_menu(self):
         print("Os bots disponíveis são: ")
-        count = 0
         try:
             for chave, bot in self.__sistema_chat_bot_DAO.get_all():
                 print(chave, bot)
@@ -86,6 +85,7 @@ class SistemaChatBotController:
             return 1
 
     def inicio(self):
+        self.__sistema_chat_bot_view.tela_chatbot()
         self.boas_vindas()
         print()
         self.mostra_menu()

@@ -1,4 +1,4 @@
-from DAO import DAO
+from SistemaChatBot.DAO import DAO
 from Bots.Bot import Bot
 
 class BotDAO(DAO):
