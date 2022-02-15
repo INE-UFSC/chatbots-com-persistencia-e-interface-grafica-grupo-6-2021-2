@@ -28,3 +28,9 @@ class SistemaChatBotView(BaseView):
 
     def limpa_lacuna(self, key):
         self.__window.Element(key).Update('')
+
+    def le_eventos(self):
+        return self.__window.read()
+
+    def fim(self):
+        self.__window.close()
