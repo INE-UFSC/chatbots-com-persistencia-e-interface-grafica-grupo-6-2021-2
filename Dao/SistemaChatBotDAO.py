@@ -1,14 +1,15 @@
-
 from DAO import DAO
-from Cliente import Cliente
+from SistemaChatBot import SistemaChatBot
 
-class ClienteDAO(DAO):
-    def __init__(self, datasource = 'bots.pkl'):
+class SistemaChatBotDAO(DAO):
+    def __init__(self, datasource = 'sistema_chat_bot.pkl'):
         super().__init__(datasource)
 
-    def add(self, cliente: Cliente):
-        if (cliente is not None) and (isinstance(cliente.codigo, int)) and (isinstance(cliente, Cliente)):
-           return super().add(cliente.codigo, cliente)
+    def add(self, sistemaChatBot: SistemaChatBot):
+        if ((SistemaChatBot is not None)
+                and (isinstance(sistemaChatBot.id, int))
+                and (isinstance(sistemaChatBot, SistemaChatBot))):
+            return super().add(sistemaChatBot.id, sistemaChatBot)
    
     def get(self, key: int):
         if isinstance(key, int):
