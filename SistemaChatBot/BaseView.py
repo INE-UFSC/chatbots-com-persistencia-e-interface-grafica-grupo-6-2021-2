@@ -12,7 +12,7 @@ class BaseView(ABC):
         self.__window = None
 
     @abstractmethod
-    def tela_consulta(self):
+    def tela(self):
         pass
 
     @property
