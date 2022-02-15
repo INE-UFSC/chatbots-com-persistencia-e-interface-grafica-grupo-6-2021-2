@@ -3,7 +3,8 @@ from Bots.Comando import Comando
 
 
 class BotZangado(Bot):
-    def __init__(self, nome):
+    def __init__(self, id, nome):
+        self.__id = id
         self.__nome = nome
         self.__comandos = [
             Comando('Oláa!!', 'NÃO FALE COMIGO!'),
@@ -12,6 +13,10 @@ class BotZangado(Bot):
             Comando('Tchau', 'SAI LOGO DAQUI!')
         ]
         self.__comando_erro = 'NÃO EXISTE ESSE COMANDO, IDIOTA!'
+
+    @property
+    def id(self):
+        return self.__id
 
     @property  # nao esquecer o decorator
     def nome(self):

@@ -1,5 +1,5 @@
-from DAO import DAO
-from SistemaChatBotController import SistemaChatBotController
+from SistemaChatBot.DAO import DAO
+from SistemaChatBot.SistemaChatBotController import SistemaChatBotController
 
 class SistemaChatBotDAO(DAO):
     def __init__(self, datasource = 'sistema_chat_bot.pkl'):

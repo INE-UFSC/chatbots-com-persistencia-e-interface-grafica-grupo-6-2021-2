@@ -1,19 +1,20 @@
 import PySimpleGUI as sg
 from SistemaChatBot.BaseView import BaseView
-# import SistemaChatBotController
 # View do padrão MVC
 
 
 class SistemaChatBotView(BaseView):
     def __init__(self, controlador, bot):
         self.__controlador = controlador
-        self.__container = []
-        self.__window = sg.Window(
-            "Sistema Chat Bot", self.__container, font=("Helvetica", 14))
         self.__bot = bot
+        self.__container = []
+        self.__title = f'Sistema Chat Bot: {self.__bot.nome}'
+        self.__window = sg.Window(
+            self.__title, self.__container, font=("Helvetica", 14))
 
-    def tela_chatbot(self):
+    def tela(self):
         sg.theme('Dark Brown 1')
+        self.__container = []
         for comando in self.__bot.comandos:
             self.__container.append([sg.Button(comando.comando)])
 

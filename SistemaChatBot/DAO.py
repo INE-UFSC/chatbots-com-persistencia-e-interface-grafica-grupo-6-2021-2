@@ -49,8 +49,8 @@ class DAO(ABC):
 
     def get_list(self):
         list = []
-        for key in self.__object_cache.keys():
-            list.append(self.__object_cache[key])
+        for key in self.objCache.keys():
+            list.append(self.objCache[key])
         return list
 
     def set_data_source(self, path: str):

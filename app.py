@@ -5,9 +5,12 @@ from SistemaChatBot import SistemaChatBotController as scb
 from Bots.BotZangado import BotZangado
 from Bots.BotTriste import BotTriste
 from Bots.BotFeliz import BotFeliz
+from random import random
 
 # construa a lista de bots disponíveis aqui
-lista_bots = [BotZangado("Yoda"), BotTriste("Onion"), BotFeliz("Sunflower"), BotManezinho('Manuel'),
-              BotMarombeiro('Stronda')]
-sys = scb.SistemaChatBotController("CrazyBots", lista_bots)
+lista_bots = [BotZangado(random(), "Yoda"), BotTriste(random(), "Onion"), BotFeliz(random(), "Sunflower"), BotManezinho(random(), 'Manuel'),
+              BotMarombeiro(random(), 'Stronda')]
+
+sys = scb.SistemaChatBotController('Empresa show').adiciona_bot(lista_bots)
+
 sys.inicio()
