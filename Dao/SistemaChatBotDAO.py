@@ -1,15 +1,15 @@
 from DAO import DAO
-from SistemaChatBot.SistemaChatBot import SistemaChatBot
+from SistemaChatBot.SistemaChatBotController import SistemaChatBotController
 
 class SistemaChatBotDAO(DAO):
     def __init__(self, datasource = 'sistema_chat_bot.pkl'):
         super().__init__(datasource)
 
-    def add(self, sistemaChatBot: SistemaChatBot):
-        if ((SistemaChatBot is not None)
+    def add(self, sistemaChatBot: SistemaChatBotController):
+        if ((sistemaChatBot is not None)
                 and (isinstance(sistemaChatBot.id, int))
-                and (isinstance(sistemaChatBot, SistemaChatBot))):
-            return super().add(sistemaChatBot.id, sistemaChatBot)
+                and (isinstance(sistemaChatBot, SistemaChatBotController))):
+            return super().add(SistemaChatBotController.id, sistemaChatBot)
    
     def get(self, key: int):
         if isinstance(key, int):
