@@ -11,4 +11,7 @@ from random import random
 lista_bots = [BotZangado(1, "Yoda"), BotTriste(2, "Onion"), BotFeliz(3, "Sunflower"), BotManezinho(4, 'Manuel'),
               BotMarombeiro(5, 'Stronda')]
 
-sys = scb.SistemaChatBotController('Empresa show').adiciona_bot(lista_bots)
+sys = scb.SistemaChatBotController('Empresa Show')
+
+sys.adiciona_bot(lista_bots)
+sys.inicio()

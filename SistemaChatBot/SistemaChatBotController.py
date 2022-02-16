@@ -8,17 +8,19 @@ from SistemaChatBot.ExportView import ExportView
 from SistemaChatBot.BotSelectionView import BotSelectionView
 import PySimpleGUI as sg
 
+
 class SistemaChatBotController:
     def __init__(self, nomeEmpresa):
         self.__id = random()
         self.__empresa = nomeEmpresa
         self.__lista_bots = BotDAO().get_list()
-        self.__bot = None # BotManezinho(random(), 'Manuel')
+        self.__bot = None  # BotManezinho(random(), 'Manuel')
         self.__sistema_chat_bot_DAO = BotDAO()
         self.__sistema_chat_bot_view = SistemaChatBotView(self, self.__bot)
         self.__telaExport = ExportView(self)
         self.__telaImport = ImportView(self)
         self.__telaBotSelection = BotSelectionView(self, self.__lista_bots)
+        self.__telaAtual = self.__telaBotSelection
 
     @property
     def id(self):
@@ -89,8 +91,8 @@ class SistemaChatBotController:
             return 1
 
     def inicio(self):
-        self.__telaBotSelection.tela()
-        
+        self.__telaAtual.tela()
+
         # Loop de eventos
         rodando = True
         export_active = False
@@ -103,32 +105,41 @@ class SistemaChatBotController:
             elif import_active:
                 import_active = self.handle_import()
             else:
-                if bot_selected:
-                    event, values = self.__sistema_chat_bot_view.le_eventos()
-                else:
-                    event, values = self.__telaBotSelection.le_eventos()
+                event, values = self.__telaAtual.le_eventos()
+
+                # event, values = self.__telaBotSelection.le_eventos()
 
                 if event == sg.WIN_CLOSED:
-                    self.__telaCliente.fim()
+                    self.__telaAtual.fim()
                     break
                 else:
                     try:
                         if event == 'Exportar':
                             self.__telaExport.tela()
-                            export_active = True 
+                            export_active = True
                         elif event == 'Importar':
                             self.__telaImport.tela()
-                            import_active = True 
+                            import_active = True
                         else:
-                            for comando in self.__bot.comandos:
-                                if event == comando.comando:
-                                    resultado = comando.resposta
+                            if bot_selected:
+                                for comando in self.__bot.comandos:
+                                    if event == comando.comando:
+                                        resultado = comando.resposta
+                                        print(resultado)
 
                             for bot in self.__lista_bots:
                                 if event == bot.nome:
-                                    self.__telaBotSelection.fim()
-                                    self.__sistema_chat_bot_view.tela()
- 
+                                    self.__bot = bot
+                                    self.__sistema_chat_bot_view = SistemaChatBotView(
+                                        self, self.__bot)
+                                    print(bot, bot.nome)
+                                    self.__telaAtual.fim()
+                                    self.__telaAtual = self.__sistema_chat_bot_view
+                                    self.__telaAtual.tela()
+                        if event == 'Voltar':
+                            self.__telaAtual.fim()
+                            self.__telaAtual = self.__telaBotSelection
+                            self.__telaAtual.tela()
 
                     except ValueError:
                         resultado = 'Código deve ser um número inteiro!'
@@ -151,10 +162,10 @@ class SistemaChatBotController:
             self.__telaExport.fim()
             export_active = False
         elif event_exp == 'Exportar':
-                path = values_exp['caminho_export']
-                self.__sistema_chat_bot_DAO.set_data_source(path)
-                self.__telaExport.fim()
-                export_active = False
+            path = values_exp['caminho_export']
+            self.__sistema_chat_bot_DAO.set_data_source(path)
+            self.__telaExport.fim()
+            export_active = False
 
         return export_active
 
@@ -167,9 +178,9 @@ class SistemaChatBotController:
             self.__telaImport.fim()
             import_active = False
         elif event_exp == 'importar':
-                path = values_exp['caminho_import']
-                self.__sistema_chat_bot_DAO.import_source(path)
-                self.__telaImport.fim()
-                import_active = False
+            path = values_exp['caminho_import']
+            self.__sistema_chat_bot_DAO.import_source(path)
+            self.__telaImport.fim()
+            import_active = False
 
         return import_active
