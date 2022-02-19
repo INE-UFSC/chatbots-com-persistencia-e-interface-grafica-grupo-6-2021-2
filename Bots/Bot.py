@@ -1,14 +1,13 @@
-# implemente as seguintes classes
 
 from abc import ABC, abstractmethod
-import random as r
+import random as random
 from Bots.Comando import Comando
 
 
 class Bot(ABC):
 
-    def __init__(self, id, nome):
-        self.__id = id
+    def __init__(self, nome: str):
+        self.__id = random.randint(0, 9)
         self.__nome = nome
         self.__comandos = []
         self.__comando_erro = "Não consigo responder essa pergunta"
@@ -20,10 +19,6 @@ class Bot(ABC):
     @property
     def nome(self):
         return self.__nome
-
-    @nome.setter
-    def nome(self, nome):
-        self.__nome = nome
 
     @property
     def comandos(self):
@@ -68,4 +63,8 @@ class Bot(ABC):
 
     @abstractmethod
     def despedida():
+        pass
+
+    @abstractmethod
+    def apresentacao():
         pass

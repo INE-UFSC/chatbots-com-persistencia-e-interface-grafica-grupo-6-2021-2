@@ -3,9 +3,8 @@ from Bots.Comando import Comando
 
 
 class BotManezinho(Bot):
-    def __init__(self, id, nome):
-        self.__id = id
-        self.__nome = nome
+    def __init__(self, nome):
+        super().__init__(nome)
         self.__comandos = [
             Comando("Ô meu querido, quesh saber quantas praias existem na nossa linda ilha da magia?",
                     "A nossa belíssima ilha conta com incríveis 42 praias!"),
@@ -19,20 +18,8 @@ class BotManezinho(Bot):
         self.__comando_erro = "Uhhh seu tanso! Não é assim não, pô!"
 
     @property
-    def id(self):
-        return self.__id
-
-    @property
-    def nome(self):
-        return self.__nome
-
-    @property
     def comandos(self):
         return self.__comandos
-
-    @nome.setter
-    def nome(self, nome):
-        self.__nome = nome
 
     @property
     def comando_erro(self):
