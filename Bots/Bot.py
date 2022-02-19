@@ -7,7 +7,7 @@ from Bots.Comando import Comando
 class Bot(ABC):
 
     def __init__(self, nome: str):
-        self.__id = random.randint(0, 9)
+        self.__id = random.randint(0, 900)
         self.__nome = nome
         self.__comandos = []
         self.__comando_erro = "Não consigo responder essa pergunta"
