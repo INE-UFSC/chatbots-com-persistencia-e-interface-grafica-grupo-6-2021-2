@@ -2,20 +2,25 @@ from Bots.Bot import Bot
 from random import random
 from SistemaChatBot.BotDAO import BotDAO
 from SistemaChatBot.SistemaChatBotView import SistemaChatBotView
-from Bots.BotManezinho import BotManezinho
 from SistemaChatBot.ImportView import ImportView
 from SistemaChatBot.ExportView import ExportView
 from SistemaChatBot.BotSelectionView import BotSelectionView
 import PySimpleGUI as sg
+
+from Bots.BotManezinho import BotManezinho
+from Bots.BotMarombeiro import BotMarombeiro
+from Bots.BotZangado import BotZangado
+from Bots.BotTriste import BotTriste
+from Bots.BotFeliz import BotFeliz
 
 
 class SistemaChatBotController:
     def __init__(self, nomeEmpresa):
         self.__id = random()
         self.__empresa = nomeEmpresa
-        self.__lista_bots = BotDAO().get_list()
-        self.__bot = None  # BotManezinho(random(), 'Manuel')
         self.__sistema_chat_bot_DAO = BotDAO()
+        self.__lista_bots = self.__verifica_existencia_picke()
+        self.__bot = None
         self.__sistema_chat_bot_view = SistemaChatBotView(self, self.__bot)
         self.__telaExport = ExportView(self)
         self.__telaImport = ImportView(self)
@@ -49,6 +54,19 @@ class SistemaChatBotController:
     @empresa.setter
     def empresa(self, nome):
         self.__empresa = nome
+
+    def __verifica_existencia_picke(self):
+        lista_bots_atual = self.__sistema_chat_bot_DAO.get_list()
+
+        if not lista_bots_atual:
+            nova_lista_bots = [BotZangado("Yoda"), BotTriste("Onion"),
+                               BotFeliz("Sunflower"), BotManezinho("Manuel"), 
+                               BotMarombeiro("Stronda")]
+            for bot in nova_lista_bots:
+                self.adiciona_bot(bot)
+            return nova_lista_bots
+        else:
+            return lista_bots_atual
 
     def adiciona_bot(self, bot: Bot):
         if isinstance(bot, Bot):
