@@ -60,7 +60,7 @@ class SistemaChatBotController:
 
         if not lista_bots_atual:
             nova_lista_bots = [BotZangado("Yoda"), BotTriste("Onion"),
-                               BotFeliz("Sunflower"), BotManezinho("Manuel"), 
+                               BotFeliz("Sunflower"), BotManezinho("Manuel"),
                                BotMarombeiro("Stronda")]
             for bot in nova_lista_bots:
                 self.adiciona_bot(bot)
@@ -150,7 +150,6 @@ class SistemaChatBotController:
                                     self.__bot = bot
                                     self.__sistema_chat_bot_view = SistemaChatBotView(
                                         self, self.__bot)
-                                    print(bot, bot.nome)
                                     self.__telaAtual.fim()
                                     self.__telaAtual = self.__sistema_chat_bot_view
                                     self.__telaAtual.tela()
