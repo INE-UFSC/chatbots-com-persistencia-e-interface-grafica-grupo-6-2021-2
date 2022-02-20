@@ -47,10 +47,10 @@ class DAO(ABC):
 
     def __load(self):
         if self.__file_exists(self.datasource):
-            with open(self.datasource, encoding='utf-8', mode='r') as json_file:
+            with open(self.datasource, encoding='latin-1', mode='r') as json_file:
                 json_data = json.load(json_file)
-            self.objListCache = json_data
-            json_file.close()
+                self.objListCache = json_data
+                json_file.close()
         else:
             pass
 
@@ -96,7 +96,7 @@ class DAO(ABC):
 
     def import_source(self, path: str): #Verify if it works
         with open(os.path.abspath(self.datasource,),
-                  encoding='utf-8', mode='rb') as json_file:
+                  encoding='latin-1', mode='rb') as json_file:
             json_data = json.load(json_file)
         json_file.close()
         for cliente in json_data.values():
