@@ -6,10 +6,7 @@ class BotDAO(DAO):
         super().__init__(datasource)
 
     def add(self, bot: Bot):
-        if ((bot is not None)
-                and (isinstance(bot.id, int))
-                and (isinstance(bot, Bot))):
-            return super().add(bot.id, bot)
+        return super().add(bot.id, bot)
    
     def get(self, key: int):
         if isinstance(key, int):
