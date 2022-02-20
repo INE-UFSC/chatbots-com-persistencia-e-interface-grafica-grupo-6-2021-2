@@ -5,7 +5,13 @@ class Comando:
 
     def __init__(self, comando: str, resposta: str):
         self.__comando = comando
-        self.__resposta = [resposta]
+        self.__resposta = resposta
+        
+    def __iter__(self):
+        yield from {
+            "comando": self.comando,
+            "resposta": self.resposta,
+        }.items()
 
     @property
     def comando(self):
