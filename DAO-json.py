@@ -51,6 +51,7 @@ class DAO(ABC):
         else:
             pass
 
+    #Adiciona um bot ao dao e ao json
     def add(self, key, obj):
         if key in self.objListCache.keys():
             return False
@@ -60,6 +61,7 @@ class DAO(ABC):
         self.__dump()
         return True
 
+    #Remove um bot do json e do dao
     def remove(self, key):
         deletou = False
         with open(self.datasource, encoding='latin-1', mode='r') as obj:
@@ -77,6 +79,7 @@ class DAO(ABC):
             print('Chave não encontrada')
             return False
 
+    #Proura o conteudo de um bot especifico com base no id
     def get(self, key):
         try:
             return self.objListCache[key]
@@ -84,15 +87,18 @@ class DAO(ABC):
             print('Chave não encontrada')
             return False
 
+    #Pega todo o conteudo de todos os bots
     def get_all(self):
         return self.objListCache.items()
 
-    def get_ids(self): #Verify if it works
+    #Pega a lista de todos os ids no dao
+    def get_ids(self):
         lista = []
         for x in self.objListCache:
             lista.append(x)
         return lista
 
+    #Troca o datasource atual do DAO e limpa os caches para utilizar apenas os bots da nova source
     def set_data_source(self, path: str):
         if '.json' not in path:
             path = path + '.json'
@@ -101,7 +107,8 @@ class DAO(ABC):
         self.datasource = path
         self.__dump
 
-    def import_source(self, path: str): #Verify if it works
+    #Importa bot de outro arquivo e salva eles no datasource atual (ignora bots com id igual aos já existentes)
+    def import_source(self, path: str):
         if '.json' not in path:
             path = path + '.json'
         with open(os.path.abspath(path),
