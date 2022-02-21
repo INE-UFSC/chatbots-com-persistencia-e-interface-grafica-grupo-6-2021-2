@@ -61,25 +61,27 @@ class DAO(ABC):
         return True
 
     def remove(self, key):
-        try:
-            with open(self.datasource, encoding='latin-1', mode='r') as obj:
-                content = json.load(obj)
-                for x in content:
-                    if str(x) == key:
-                        del self.objListCache[key]  
-                        break
-                obj.close()
-            self.__dump()
+        deletou = False
+        with open(self.datasource, encoding='latin-1', mode='r') as obj:
+            content = json.load(obj)
+            for x in content:
+                if str(x) == key:
+                    deletou = True
+                    del self.objListCache[key]  
+                    break
+            obj.close()
+        self.__dump()
+        if deletou:
             return True
-        except KeyError:
+        else:
             print('Chave não encontrada')
             return False
 
-    def get(self, key): #Verify if it works
+    def get(self, key):
         try:
-            return self.objCache[key]
+            return self.objListCache[key]
         except KeyError:
-            print('Chave não encontrada', f=sys.stderr)
+            print('Chave não encontrada')
             return False
 
     def get_all(self): #Verify if it works
@@ -110,7 +112,10 @@ class DAO(ABC):
 
 if __name__ == '__main__':
     dao = DAO('teste.json')
-    dao.remove('895')
+    #p1 = BotFeliz('felipe')
+    #dao.add(p1.id, p1)
+    #dao.remove('895')
     print('old', dao.objListCache)
     p1 = dao.get_ids()
     print(p1)
+    print(dao.get('620'))
