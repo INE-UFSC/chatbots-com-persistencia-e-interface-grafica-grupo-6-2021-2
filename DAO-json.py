@@ -84,7 +84,7 @@ class DAO(ABC):
             print('Chave não encontrada')
             return False
 
-    def get_all(self): #Verify if it works
+    def get_all(self):
         return self.objListCache.items()
 
     def get_ids(self): #Verify if it works
@@ -115,7 +115,9 @@ if __name__ == '__main__':
     #p1 = BotFeliz('felipe')
     #dao.add(p1.id, p1)
     #dao.remove('895')
-    print('old', dao.objListCache)
-    p1 = dao.get_ids()
-    print(p1)
-    print(dao.get('620'))
+    #print('old', dao.objListCache)
+    #p1 = dao.get_ids()
+    #print(p1)
+    #print(dao.get('620'))
+    #print(dao.get_all())
+    
