@@ -20,8 +20,6 @@ class DAO(ABC):
         self.objCache = {}
         self.objListCache = {}
         self.keyCache = 0
-        self.__create_file(self.datasource)
-
         try:
             self.__load()
         except IOError:
@@ -49,7 +47,7 @@ class DAO(ABC):
                 self.objListCache = json_data
                 json_file.close()
         else:
-            pass
+            self.__create_file(self.datasource)
 
     #Adiciona um bot ao dao e ao json
     def add(self, key, obj):
@@ -105,7 +103,7 @@ class DAO(ABC):
         self.objListCache = {}
         self.objCache = {}
         self.datasource = path
-        self.__dump()
+        self.__load()
 
     #Importa bot de outro arquivo e salva eles no datasource atual (ignora bots com id igual aos já existentes)
     def import_source(self, path: str):
@@ -126,15 +124,14 @@ if __name__ == '__main__':
     #p1 = BotFeliz('felipe')
     #dao.add(p1.id, p1)
     #dao.remove('895')
-    #p1 = dao.get_ids()
-    #print(p1)
+    p1 = dao.get_ids()
+    print(p1)
     #print(dao.get('620'))
     #print(dao.get_all())
-    #dao.set_data_source('teste2')
-    #p1 = BotFeliz('jorge')
-    #dao.add(p1.id, p1)
-
-    #print('old', dao.objListCache)
+    dao.set_data_source('teste2')
+    p1 = dao.get_ids()
+    print(p1)
+    print('old', dao.objListCache)
     #dao.import_source('teste2')
     
     
