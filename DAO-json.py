@@ -28,10 +28,7 @@ class DAO(ABC):
             self.__dump()
 
     def __dump(self):
-        self.__load()
         with open(self.datasource, 'w') as json_file:
-            self.objListCache[str(self.keyCache)] = dict(self.objCache)
-            print(self.objListCache)
             bot_to_string = json.dumps(
                 self.objListCache, cls=MyEncoder, indent=4, sort_keys=True, ensure_ascii=False)
             json_file.write(bot_to_string)
@@ -59,16 +56,23 @@ class DAO(ABC):
             return False
         self.objCache = obj
         self.keyCache = key
+        self.objListCache[str(self.keyCache)] = dict(self.objCache)
         self.__dump()
         return True
 
-    def remove(self, key): #Verify if it works
+    def remove(self, key):
         try:
-            self.objCache.pop(key)
+            with open(self.datasource, encoding='latin-1', mode='r') as obj:
+                content = json.load(obj)
+                for x in content:
+                    if str(x) == key:
+                        del self.objListCache[key]  
+                        break
+                obj.close()
             self.__dump()
             return True
         except KeyError:
-            print('Chave não encontrada', f=sys.stderr)
+            print('Chave não encontrada')
             return False
 
     def get(self, key): #Verify if it works
@@ -81,16 +85,16 @@ class DAO(ABC):
     def get_all(self): #Verify if it works
         return self.objListCache.items()
 
-    def get_list(self): #Verify if it works
-        list = []
-        for key in self.objCache.keys():
-            list.append(self.objCache[key])
-        return list
+    def get_ids(self): #Verify if it works
+        lista = []
+        for x in self.objListCache:
+            lista.append(x)
+        return lista
 
     def set_data_source(self, path: str): #Verify if it works
-        if '.pkl' not in path:
-            path = path + '.pkl'
-        with open(self.datasource, 'wb') as json_file:
+        if '.json' not in path:
+            path = path + '.json'
+        with open(self.datasource, 'w') as json_file:
             json.dump(self.objCache, json_file)
         json_file.close()
 
@@ -106,10 +110,7 @@ class DAO(ABC):
 
 if __name__ == '__main__':
     dao = DAO('teste.json')
-    if not dao.objListCache:
-        bot = BotFeliz("Teste")
-        bot2 = BotFeliz("Teste2")
-        dao.add(bot.id, bot)
-        dao.add(bot2.id, bot2)
-    else:
-        print('old', dao.objListCache)
+    dao.remove('895')
+    print('old', dao.objListCache)
+    p1 = dao.get_ids()
+    print(p1)
