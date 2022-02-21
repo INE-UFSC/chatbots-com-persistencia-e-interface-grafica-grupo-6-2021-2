@@ -105,7 +105,7 @@ class DAO(ABC):
         self.objListCache = {}
         self.objCache = {}
         self.datasource = path
-        self.__dump
+        self.__dump()
 
     #Importa bot de outro arquivo e salva eles no datasource atual (ignora bots com id igual aos já existentes)
     def import_source(self, path: str):
