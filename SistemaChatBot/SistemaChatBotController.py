@@ -1,5 +1,5 @@
 from Bots.Bot import Bot
-from random import random
+from random import random, choice
 from SistemaChatBot.BotDAO import BotDAO
 from SistemaChatBot.SistemaChatBotView import SistemaChatBotView
 from SistemaChatBot.ImportView import ImportView
@@ -142,8 +142,7 @@ class SistemaChatBotController:
                             if bot_selected:
                                 for comando in self.__bot.comandos:
                                     if event == comando.comando:
-                                        resultado = comando.resposta
-                                        print(resultado)
+                                        resultado = choice(comando.resposta)
 
                             for bot in self.__lista_bots:
                                 if event == bot.nome:
@@ -153,10 +152,13 @@ class SistemaChatBotController:
                                     self.__telaAtual.fim()
                                     self.__telaAtual = self.__sistema_chat_bot_view
                                     self.__telaAtual.tela()
+                                    bot_selected = True
                         if event == 'Voltar':
                             self.__telaAtual.fim()
                             self.__telaAtual = self.__telaBotSelection
                             self.__telaAtual.tela()
+                            bot_selected = False
+                            resultado = ''
 
                     except ValueError:
                         resultado = 'Código deve ser um número inteiro!'
@@ -168,7 +170,6 @@ class SistemaChatBotController:
                 if resultado != '':
                     dados = str(resultado)
                     self.__sistema_chat_bot_view.mostra_resultado(dados)
-                    self.__sistema_chat_bot_view.limpa_dados()
 
     def handle_export(self):
         event_exp, values_exp = self.__telaExport.le_eventos()

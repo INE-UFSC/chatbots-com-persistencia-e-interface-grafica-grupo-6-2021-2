@@ -14,11 +14,13 @@ class SistemaChatBotView(BaseView):
 
         self.container.append([sg.Text('', key='resposta', size=(50, 1))])
 
+        self.container.append([sg.Text('Perguntas:')])
+
         for comando in self.__bot.comandos:
             self.container.append([sg.Button(comando.comando)])
 
         self.container.append(
-            [sg.Button('Exportar'), sg.Button('Importar'), sg.Button('Voltar')])
+            [sg.Button('Voltar')])
         self.update_layout(self.container)
 
     def mostra_resultado(self, resposta):

@@ -18,5 +18,6 @@ class BotSelectionView(BaseView):
             bots.append(sg.Button(bot.nome))
         
         self.container.append(bots)
+        self.container.append([sg.Button('Exportar'), sg.Button('Importar')])
 
         self.update_layout(self.container)
