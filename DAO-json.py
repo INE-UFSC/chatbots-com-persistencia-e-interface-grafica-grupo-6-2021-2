@@ -93,12 +93,13 @@ class DAO(ABC):
             lista.append(x)
         return lista
 
-    def set_data_source(self, path: str): #Verify if it works
+    def set_data_source(self, path: str):
         if '.json' not in path:
             path = path + '.json'
-        with open(self.datasource, 'w') as json_file:
-            json.dump(self.objCache, json_file)
-        json_file.close()
+        self.objListCache = {}
+        self.objCache = {}
+        self.datasource = path
+        self.__dump
 
     def import_source(self, path: str): #Verify if it works
         with open(os.path.abspath(self.datasource,),
@@ -115,9 +116,16 @@ if __name__ == '__main__':
     #p1 = BotFeliz('felipe')
     #dao.add(p1.id, p1)
     #dao.remove('895')
-    #print('old', dao.objListCache)
     #p1 = dao.get_ids()
     #print(p1)
     #print(dao.get('620'))
     #print(dao.get_all())
+    #dao.set_data_source('teste2')
+    #p1 = BotFeliz('jorge')
+    #dao.add(p1.id, p1)
+
+    #print('old', dao.objListCache)
+
+    
+    
     
