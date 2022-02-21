@@ -102,12 +102,15 @@ class DAO(ABC):
         self.__dump
 
     def import_source(self, path: str): #Verify if it works
-        with open(os.path.abspath(self.datasource,),
-                  encoding='latin-1', mode='rb') as json_file:
+        if '.json' not in path:
+            path = path + '.json'
+        with open(os.path.abspath(path),
+                  encoding='latin-1', mode='r') as json_file:
             json_data = json.load(json_file)
         json_file.close()
-        for cliente in json_data.values():
-            self.objCache[cliente.codigo] = cliente
+        for x in json_data:
+            if x not in self.objListCache:
+                self.objListCache[x] = json_data[x]
         self.__dump()
 
 
@@ -125,7 +128,7 @@ if __name__ == '__main__':
     #dao.add(p1.id, p1)
 
     #print('old', dao.objListCache)
-
+    #dao.import_source('teste2')
     
     
     
