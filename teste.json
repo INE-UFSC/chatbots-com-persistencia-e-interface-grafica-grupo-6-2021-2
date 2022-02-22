@@ -1,0 +1,48 @@
+{
+    "384": {
+        "comando_erro": "Digite um comando válido para eu conseguir te responder!",
+        "comandos": [
+            {
+                "comando": "Oláa!!",
+                "resposta": "Oi! Que dia lindo, não é mesmo?!"
+            },
+            {
+                "comando": "Como você está? :)",
+                "resposta": "Estou maravilhosamente feliz!!"
+            },
+            {
+                "comando": "Pode me ajudar?",
+                "resposta": "Claro que posso! Será um prazer!"
+            },
+            {
+                "comando": "Tchau",
+                "resposta": "Até mais, tenha um bom dia! "
+            }
+        ],
+        "id": 384,
+        "nome": "felipe"
+    },
+    "436": {
+        "comando_erro": "Digite um comando válido para eu conseguir te responder!",
+        "comandos": [
+            {
+                "comando": "Oláa!!",
+                "resposta": "Oi! Que dia lindo, não é mesmo?!"
+            },
+            {
+                "comando": "Como você está? :)",
+                "resposta": "Estou maravilhosamente feliz!!"
+            },
+            {
+                "comando": "Pode me ajudar?",
+                "resposta": "Claro que posso! Será um prazer!"
+            },
+            {
+                "comando": "Tchau",
+                "resposta": "Até mais, tenha um bom dia! "
+            }
+        ],
+        "id": 436,
+        "nome": "jorge"
+    }
+}

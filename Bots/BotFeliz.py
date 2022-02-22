@@ -1,12 +1,12 @@
 from Bots.Bot import Bot
 from Bots.Comando import Comando
-
+import json
 
 class BotFeliz(Bot):
     def __init__(self, nome):
         super().__init__(nome)
         self.__comandos = [
-            Comando('Oláa!!', 'Oi! Que dia lindo, não é mesmo?!'),
+            Comando("Oláa!!", "Oi! Que dia lindo, não é mesmo?!"),
             Comando('Como você está? :)', 'Estou maravilhosamente feliz!!'),
             Comando('Pode me ajudar?', 'Claro que posso! Será um prazer!'),
             Comando('Tchau', 'Até mais, tenha um bom dia! ')

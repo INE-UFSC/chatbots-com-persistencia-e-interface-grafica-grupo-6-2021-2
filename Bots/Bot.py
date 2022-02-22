@@ -2,6 +2,7 @@
 from abc import ABC, abstractmethod
 import random as random
 from Bots.Comando import Comando
+import json
 
 
 class Bot(ABC):
@@ -11,6 +12,14 @@ class Bot(ABC):
         self.__nome = nome
         self.__comandos = []
         self.__comando_erro = "Não consigo responder essa pergunta"
+
+    def __iter__(self):
+        yield from {
+            "comandos": [dict(comando) for comando in self.comandos],
+            "id": self.id,
+            "nome": self.nome,
+            "comando_erro": self.comando_erro,
+        }.items()
 
     @property
     def id(self):
