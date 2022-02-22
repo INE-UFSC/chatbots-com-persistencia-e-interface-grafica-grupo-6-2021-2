@@ -65,6 +65,6 @@ class DAO(ABC):
         f = open(path, 'rb')
         objc = pickle.load(f)
         f.close()
-        for cliente in objc.values():
-            self.objCache[cliente.codigo] = cliente
+        for bot in objc.values():
+            self.objCache[bot.id] = bot
         self.__dump()

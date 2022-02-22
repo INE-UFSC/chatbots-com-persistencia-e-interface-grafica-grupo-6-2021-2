@@ -9,7 +9,7 @@ class ImportView(BaseView):
         super().__init__("Importação de chatbots", controlador)
 
     def tela(self):
-        self.__container = [[sg.In(key="caminho_import"), sg.FileBrowse(file_types=(("*.pkl"),))],
+        self.__container = [[sg.InputText(key="caminho_import"), sg.FileBrowse(file_types=(("*.pkl"),))],
                             [sg.Button("importar")]]
 
         self.update_layout(self.__container)

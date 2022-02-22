@@ -72,42 +72,6 @@ class SistemaChatBotController:
         if isinstance(bot, Bot):
             self.__sistema_chat_bot_DAO.add(bot)
 
-    def boas_vindas(self):
-        return (f'Bem-vindo ao sistema da empresa {self.__empresa}')
-
-    def mostra_menu(self):
-        print("Os bots disponíveis são: ")
-        try:
-            for chave, bot in self.__sistema_chat_bot_DAO.get_all():
-                print(chave, bot)
-                bot.apresentacao()
-        except IndexError:
-            print('Não há nenhum bot disponivel')
-
-    def escolhe_bot(self):
-        nome = input('Digite o nome do bot escolhido: ')
-        try:
-            nome = isinstance(nome, str)
-            self.__bot = self.__sistema_chat_bot_DAO.find(nome)
-        except ValueError:
-            print("Por favor digite o nome do bot")
-            self.escolhe_bot()
-        except IndexError:
-            print('Escolha um numero válido')
-            self.escolhe_bot()
-
-    def mostra_comandos_bot(self):
-        self.bot.mostra_comandos()
-
-    def le_envia_comando(self):
-        escolha = input(
-            'Digite o comando desejado (ou -1 para fechar o programa): ')
-        if escolha == '-1':
-            return 0
-        else:
-            self.bot.executa_comando(escolha)
-            return 1
-
     def inicio(self):
         self.__telaAtual.tela()
 

@@ -12,7 +12,7 @@ class SistemaChatBotView(BaseView):
         sg.theme('Dark Brown 1')
         self.container = []
 
-        self.container.append([sg.Text('', key='resposta', size=(50, 1))])
+        self.container.append([sg.Text(self.__bot.boas_vindas(), key='resposta', size=(50, 1))])
 
         self.container.append([sg.Text('Perguntas:')])
 
