@@ -13,7 +13,7 @@ class SistemaChatBotView(BaseView):
         self.container = []
         self.container.append([sg.Text(f'{self.__bot.nome} diz:')])
         self.container.append(
-            [sg.Text(self.__bot.boas_vindas(), key='resposta', size=(50, 1))])
+            [sg.Multiline(self.__bot.boas_vindas(), key='resposta', size=(50, 2), disabled=True)])
 
         self.container.append([sg.Text('Perguntas:')])
 
